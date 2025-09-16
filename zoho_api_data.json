@@ -1,0 +1,488 @@
+{
+  "endpoints": {
+    "organizations?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5": {
+      "url": "https://www.zoho.com/inventory/api/v1/introduction/#api-call-limit",
+      "description": "ry admin console. Click the drop down with organization’s name as the label and click Manage Organizations.\n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n\n$ curl https://www.zohoapis.com/inventory/v1/organizations?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5\n        \n\nResponse Example\n\n\n{\n\"code\": 0,\n\"message\": \"success\",\n\"organizations\": [\n{\n\"organization_id\": \"10234695\",\n\"name\": \"Zillum\",\n\"contact_"
+    },
+    "invoices": {
+      "url": "https://www.zoho.com/inventory/api/v1/introduction/#api-call-limit",
+      "description": "ment Orders\n\n\nOverview\n\n\nCreate a Shipment Order\n\n\nUpdate a Shipment Order\n\n\nRetrieve a Shipment Order\n\n\nDelete a Shipment Order\n\n\nMark as Delivered\n\n\n\n\nInvoices\n\n\nOverview\n\n\nCreate an invoice\n\n\nList invoices\n\n\nUpdate an invoice\n\n\nGet an invoice\n\n\nDelete an invoice\n\n\nUpdate custom field in existing invoices\n\n\nMark an invoice as sent\n\n\nVoid an invoice\n\n\nMark as draft\n\n\nEmail an invoice\n\n\nGet invoic"
+    },
+    "inventory/v": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "eaders_data = Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient"
+    },
+    "oauth/v": {
+      "url": "https://www.zoho.com/inventory/api/v1/oauth/#overview",
+      "description": "h Zoho and your application. Do not share this credentials anywhere.\n\n\n\n\nStep 2: Generating Grant Token \n Redirect to the following authorization URL with the given params\n  https://accounts.zoho.com/oauth/v2/auth? \n\n\n\nParameter\nDescription\n\n\n\n\nscope *\nSCOPE for which the token to be generated. Multiple scopes can be given which has to be separated by commas. Ex :  ZohoInventory.FullAccess.all"
+    },
+    "token/revoke": {
+      "url": "https://www.zoho.com/inventory/api/v1/oauth/#overview",
+      "description": "m/inventory&grant_type=refresh_token\n        \n\n\n\n\n\nStep 5: Revoking a Refresh Token \n To revoke a refresh token, call the following POST URL with the given params \n https://accounts.zoho.com/oauth/v2/token/revoke? \n\n\n\nParameter\nDescription\n\n\n\n\ntoken\nREFRESH TOKEN which is to be revoked\n\n\n\n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n\nhttps://accounts.zoho.com/oauth/v2/token/revoke?token=1000.8ecd"
+    },
+    "contacts?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695": {
+      "url": "https://www.zoho.com/inventory/api/v1/http-methods/#overview",
+      "description": "the list of resources or details of a particular instance of a resource. To get a list of customers\n      \n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n\n$ curl https://www.zohoapis.com/inventory/v1/contacts?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695\n\n\n\n\n\n\nTo get the details of a customer referred to by a specified customer_id \n\n\n\n Request Example \n\n\nClick to copy"
+    },
+    "contacts/903000000000099?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695": {
+      "url": "https://www.zoho.com/inventory/api/v1/http-methods/#overview",
+      "description": "ec5&organization_id=10234695\n\n\n\n\n\n\nTo get the details of a customer referred to by a specified customer_id \n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n\n$ curl https://www.zohoapis.com/inventory/v1/contacts/903000000000099?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695"
+    },
+    "invoices/7000000079426?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695": {
+      "url": "https://www.zoho.com/inventory/api/v1/response/#overview",
+      "description": "timestamps are returned in the ISO 8601 format - YYYY-MM-DDThh:mm:ssTZD.\nExample: 2016-06-11T17:38:06-0700\n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n \n$ curl https://www.zohoapis.com/inventory/v1/invoices/7000000079426?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695\n-H 'Accept: application/pdf'\n\n\n OR \n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n \n$ curl https://www.zohoapis"
+    },
+    "invoices/7000000079426?accept=pdf": {
+      "url": "https://www.zoho.com/inventory/api/v1/response/#overview",
+      "description": "9426?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695\n-H 'Accept: application/pdf'\n\n\n OR \n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n \n$ curl https://www.zohoapis.com/inventory/v1/invoices/7000000079426?accept=pdf \\\n'&authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5' \\\n'&organization_id=10234695'\n\n\nResponse Structure\n\n\n          The response structure for the Books API follows the be"
+    },
+    "invoices/700000007942?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695": {
+      "url": "https://www.zoho.com/inventory/api/v1/errors/#overview",
+      "description": "rely happens, we recommend you to contact us at  support@zoho-inventory.com  if you receive this error.\n\n\n\n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n \n$ curl https://www.zohoapis.com/inventory/v1/invoices/700000007942?authtoken=ba46xxxxxxxxxxxxxxxxxxxxxxxxoec5&organization_id=10234695\n\n\nResponse Example\n\n\n{\n\"code\": 1002,\n\"message\": \"Invoice does not exist.\"\n}"
+    },
+    "contacts?page=2&per_page=25": {
+      "url": "https://www.zoho.com/inventory/api/v1/pagination/#overview",
+      "description": "ter.\nThe per_page parameter can be used to set the number of records that you want to receive in response.\n\n\n\n\n Request Example \n\n\nClick to copy \n\n\n\n\n\n\n\n\n\n$ curl https://www.zohoapis.com/inventory/v1/contacts?page=2&per_page=25\n\n\nResponse Example\n\n\n{\n\"code\": 0,\n\"message\": \"success\",\n\"contacts\": [\n{...},\n{...}\n],\n\"page_context\": {\n\"page\": 2,\n\"per_page\": 25,\n\"has_more_page\": false\n}\n}"
+    },
+    "organizations?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/organizations?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient clien"
+    },
+    "organizations?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/organizations?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-type\", \"a"
+    },
+    "organizations?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/organizations?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.clien"
+    },
+    "organizations?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/organizations?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.clien"
+    },
+    "organizations/10229182?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/organizations/10229182?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClie"
+    },
+    "organizations/10229182?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/organizations/10229182?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-t"
+    },
+    "organizations/10229182?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/organizations/10229182?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = h"
+    },
+    "organizations/10229182?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/organizations/#get-an-organization",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/organizations/10229182?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = h"
+    },
+    "contacts?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = n"
+    },
+    "contacts?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-type\", \"applic"
+    },
+    "contacts?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.HTT"
+    },
+    "contacts?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.HTT"
+    },
+    "contacts/460000000026049?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpCl"
+    },
+    "contacts/460000000026049?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content"
+    },
+    "contacts/460000000026049?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn ="
+    },
+    "contacts/460000000026049?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn ="
+    },
+    "contacts/460000000026049/address?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/address?organization_id=10234695\"\ntype: GET\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request ="
+    },
+    "contacts/460000000026049/address?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/address?organization_id=10234695\")\n.get()\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nRespo"
+    },
+    "contacts/460000000026049/address?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/address?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/address?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/address?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/active?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/active?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request ="
+    },
+    "contacts/460000000026049/active?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/active?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nR"
+    },
+    "contacts/460000000026049/active?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/active?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/inactive?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/inactive?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request"
+    },
+    "contacts/460000000026049/inactive?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/inactive?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();"
+    },
+    "contacts/460000000026049/inactive?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clien"
+    },
+    "contacts/460000000026049/inactive?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clien"
+    },
+    "contacts/460000000026049/statements/email?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/statements/email?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo re"
+    },
+    "contacts/460000000026049/statements/email?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/statements/email?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n."
+    },
+    "contacts/460000000026049/statements/email?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/statements/email?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport ht"
+    },
+    "contacts/460000000026049/statements/email?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/statements/email?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport ht"
+    },
+    "contacts/460000000026049/email?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/email?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nO"
+    },
+    "contacts/460000000026049/email?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/email?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\""
+    },
+    "contacts/460000000026049/email?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/email?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/email?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/email?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "contacts/460000000026049/comments?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/comments?organization_id=10234695\"\ntype: GET\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request"
+    },
+    "contacts/460000000026049/comments?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/comments?organization_id=10234695\")\n.get()\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nResp"
+    },
+    "contacts/460000000026049/comments?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/comments?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clien"
+    },
+    "contacts/460000000026049/comments?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/comments?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clien"
+    },
+    "statements/email": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "POST  \n                      \n/contacts/{contact_id}/inactive\n\n\n\n\nEmail statement\n                \n\n\n\n\n\n\n                          POST  \n                      \n/contacts/{contact_id}/statements/email\n\n\n\n\nGet Statement mail content\n                \n\n\n\n\n\n\n                          GET   \n                      \n/contacts/{contact_id}/statements/email\n\n\n\n\nEmail contact"
+    },
+    "unregistered/consumer": {
+      "url": "https://www.zoho.com/inventory/api/v1/contacts/#list-comments",
+      "description": "oolean to check if tax is registered.\n\n\n\n\n\n gst_treatment \n string \n\n\n\n🇮🇳\n                    \n                      India\n                      \n\n\nonly\n\n\nChoose whether the contact is GST registered/unregistered/consumer/overseas. Allowed values are  business_gst  ,  business_none  ,  overseas  ,  consumer .\n\n\n\n\n\n\n Example \n\n\n{\n\"contact_id\": 460000000026049,\n\"contact_name\": \"Bowman and Co\",\n\"comp"
+    },
+    "contacts/contactpersons?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/contactpersons?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpCl"
+    },
+    "contacts/contactpersons?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/contactpersons?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content"
+    },
+    "contacts/contactpersons?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn ="
+    },
+    "contacts/contactpersons?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn ="
+    },
+    "contacts/contactpersons/460000000026051?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo respo"
+    },
+    "contacts/contactpersons/460000000026051?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.add"
+    },
+    "contacts/contactpersons/460000000026051?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http"
+    },
+    "contacts/contactpersons/460000000026051?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http"
+    },
+    "contacts/460000000026049/contactpersons?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons?organization_id=10234695\"\ntype: GET\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest re"
+    },
+    "contacts/460000000026049/contactpersons?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons?organization_id=10234695\")\n.get()\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build()"
+    },
+    "contacts/460000000026049/contactpersons?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http"
+    },
+    "contacts/460000000026049/contactpersons?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http"
+    },
+    "contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695\"\ntype: GET\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClie"
+    },
+    "contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695\")\n.get()\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err)"
+    },
+    "contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/460000000026049/contactpersons/460000000026051?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err)"
+    },
+    "contacts/contactpersons/460000000026051/primary?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051/primary?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nR"
+    },
+    "contacts/contactpersons/460000000026051/primary?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051/primary?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx12"
+    },
+    "contacts/contactpersons/460000000026051/primary?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051/primary?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimp"
+    },
+    "contacts/contactpersons/460000000026051/primary?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/contacts/contactpersons/460000000026051/primary?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimp"
+    },
+    "contacts/contactpersons": {
+      "url": "https://www.zoho.com/inventory/api/v1/contact-persons/#mark-as-primary-contact-person",
+      "description": "Download\n\n\n\nDownload Zoho Inventory OpenAPI Document\n\n\n\n\n\n\n\n            End Points\n          \n\nCreate a contact person\n                \n\n\n\n\n\n\n                          POST  \n                      \n/contacts/contactpersons\n\n\n\n\nUpdate a contact person\n                \n\n\n\n\n\n\n                          PUT   \n                      \n/contacts/contactpersons/{contact_person_id}\n\n\n\n\nDelete a contact per"
+    },
+    "itemgroups?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/itemgroups?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client ="
+    },
+    "itemgroups?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/itemgroups?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-type\", \"appl"
+    },
+    "itemgroups?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.H"
+    },
+    "itemgroups?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.H"
+    },
+    "itemgroups/4815000000044220?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHtt"
+    },
+    "itemgroups/4815000000044220?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"cont"
+    },
+    "itemgroups/4815000000044220?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\ncon"
+    },
+    "itemgroups/4815000000044220?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\ncon"
+    },
+    "itemgroups/4815000000044220/active?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/active?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest reques"
+    },
+    "itemgroups/4815000000044220/active?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/active?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build()"
+    },
+    "itemgroups/4815000000044220/active?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clie"
+    },
+    "itemgroups/4815000000044220/active?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.clie"
+    },
+    "itemgroups/4815000000044220/inactive?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/inactive?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest requ"
+    },
+    "itemgroups/4815000000044220/inactive?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/inactive?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build"
+    },
+    "itemgroups/4815000000044220/inactive?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.cl"
+    },
+    "itemgroups/4815000000044220/inactive?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/itemgroups/#mark-as-inactive",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemgroups/4815000000044220/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.cl"
+    },
+    "items?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items?organization_id=10234695\"\ntype: POST\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new"
+    },
+    "items?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/items?organization_id=10234695\")\n.post(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-type\", \"applicati"
+    },
+    "items?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/items?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.HTTPSC"
+    },
+    "items?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/items?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = http.client.HTTPSC"
+    },
+    "itemdetails?item_ids=4815000000044208,4815000000044274,4815000000044340&organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/itemdetails?item_ids=4815000000044208,4815000000044274,4815000000044340&organization_id=10234695\"\ntype: GET\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client"
+    },
+    "itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695\")\n.get()\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxx"
+    },
+    "itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err ="
+    },
+    "itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'GET',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/itemdetails?item_ids=4815000000044208%2C4815000000044274%2C4815000000044340&organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err ="
+    },
+    "items/4815000000044208?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items/4815000000044208?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClie"
+    },
+    "items/4815000000044208?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/items/4815000000044208?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"content-t"
+    },
+    "items/4815000000044208?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = h"
+    },
+    "items/4815000000044208?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nconn = h"
+    },
+    "item/45667789900/customfields?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/item/45667789900/customfields?organization_id=10234695\"\ntype: PUT\nheaders: headers_data\ncontent-type: application/json\nparameters: parameters_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkH"
+    },
+    "item/45667789900/customfields?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "lication/json\");\nRequestBody body = RequestBody.create(mediaType, \"{\\\"field1\\\":\\\"value1\\\",\\\"field2\\\":\\\"value2\\\"}\");\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/item/45667789900/customfields?organization_id=10234695\")\n.put(body)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.addHeader(\"co"
+    },
+    "item/45667789900/customfields?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/item/45667789900/customfields?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nc"
+    },
+    "item/45667789900/customfields?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f',\n'content-type': 'application/json'\n},\nbody: '{\"field1\":\"value1\",\"field2\":\"value2\"}'\n};\nfetch('https://www.zohoapis.com/inventory/v1/item/45667789900/customfields?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nc"
+    },
+    "items/4815000000044208/image?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items/4815000000044208/image?organization_id=10234695\"\ntype: DELETE\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request ="
+    },
+    "items/4815000000044208/image?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "E\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/items/4815000000044208/image?organization_id=10234695\")\n.delete(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nRe"
+    },
+    "items/4815000000044208/image?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "onst options = {\nmethod: 'DELETE',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/image?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nco"
+    },
+    "items/4815000000044208/image?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "onst options = {\nmethod: 'DELETE',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/image?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nco"
+    },
+    "items/4815000000044208/active?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items/4815000000044208/active?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = n"
+    },
+    "items/4815000000044208/active?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/items/4815000000044208/active?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nRes"
+    },
+    "items/4815000000044208/active?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nc"
+    },
+    "items/4815000000044208/active?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/active?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client\n\nc"
+    },
+    "items/4815000000044208/inactive?organization_id=10234695\"": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "Map();\nheaders_data.put(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\");\nresponse = invokeUrl\n[\nurl: \"https://www.zohoapis.com/inventory/v1/items/4815000000044208/inactive?organization_id=10234695\"\ntype: POST\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request ="
+    },
+    "items/4815000000044208/inactive?organization_id=10234695\")": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "T\nheaders: headers_data\nconnection: <connection_name>\n];\ninfo response;\n\n\nOkHttpClient client = new OkHttpClient();\nRequest request = new Request.Builder()\n.url(\"https://www.zohoapis.com/inventory/v1/items/4815000000044208/inactive?organization_id=10234695\")\n.post(null)\n.addHeader(\"Authorization\", \"Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f\")\n.build();\nR"
+    },
+    "items/4815000000044208/inactive?organization_id=10234695',": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    },
+    "items/4815000000044208/inactive?organization_id=10234695'": {
+      "url": "https://www.zoho.com/inventory/api/v1/items/#update-custom-field-in-existing-items",
+      "description": "const options = {\nmethod: 'POST',\nheaders: {\nAuthorization: 'Zoho-oauthtoken 1000.41d9xxxxxxxxxxxxxxxxxxxxxxxxc2d1.8fccxxxxxxxxxxxxxxxxxxxxxxxx125f'\n}\n};\nfetch('https://www.zohoapis.com/inventory/v1/items/4815000000044208/inactive?organization_id=10234695', options)\n.then(response => response.json())\n.then(response => console.log(response))\n.catch(err => console.error(err));\n\n\nimport http.client"
+    }
+  },
+  "authentication": {},
+  "rate_limits": {},
+  "data_structures": {},
+  "items_api": {
+    "item_id": "s\n                \n\n\n\n\n\n\n                          GET   \n                      \n/itemdetails\n\n\n\n\nUpdate an item\n                \n\n\n\n\n\n\n                          PUT   \n                      \n/items/{item_id}\n\n\n\n\nRetrieve an item\n                \n\n\n\n\n\n\n                          GET   \n                      \n/items/{item_id}\n\n\n\n\nDelete an item\n                \n\n\n\n\n\n\n                          DELETE",
+    "rate": "physical or digital. Based on the type of your business, you can offer one or more goods/services. Your product can be either fixed priced or a subscription service. Each of this may fall under a separate pricing category or have add ons associated to them. \n\n\nDownload Items OpenAPI Document\n\n\n\nDownload\n\n\n\nDownload Zoho Inventory OpenAPI Document\n\n\n\n\n\n\n\n            End Points\n          \n\nCreate an",
+    "price": "Overview\n\n\nEnable Locations\n\n\nCreate a location\n\n\nList all locations\n\n\nUpdate location\n\n\nDelete a location\n\n\nMark as Active\n\n\nMark as Inactive\n\n\nMark as Primary\n\n\n\n\nPrice Lists\n\n\nOverview\n\n\nCreate a pricebook\n\n\nList all pricebooks\n\n\nUpdate pricebook\n\n\nDelete the pricebook\n\n\nMark as Active\n\n\nMark as Inactive\n\n\n\n\nUsers\n\n\nOverview\n\n\nCreate a user\n\n\nList Users\n\n\nUpdate a user\n\n\nGet a user\n\n\nDelete a",
+    "sku": "k in your location.\n\n\n\n\n\n location_available_stock \n string \n\n\n\nAvailable stock in your location.\n\n\n\n\n\n location_actual_available_stock \n string \n\n\n\nActual available stock in your location.\n\n\n\n\n\n\n\n\n\n sku \n string \n\n\n\nThe Stock Keeeping Unit (SKU) of an item. This is unique for every item in the Inventory.\n\n\n\n\n\n upc \n long \n\n\n\nThe 12 digit Unique Product Code (UPC) of the item.\n\n\n\n\n\n ean \n long",
+    "description": "long \n\n\n\nUnique ID generated by the server for the tax associated with the item. This is used a unique identifier.\n\n\n\n\n\n documents \n array \n\n\n\nList of all the documents associated with the item\n\n\n\n\n\n description \n string \n\n\n\nDescription of the Item.\n\n\n\n\n\n tax_name \n string \n\n\n\nName of the tax applied on the Item Group.\n\n\n\n\n\n tax_percentage \n double \n\n\n\nPercentage of the Tax\n\n\n\n\n\n tax_type \n string",
+    "unit": "group_name \n string \n\n\n\nName of product group\n\n\n\n\n\n item_id \n long \n\n\n\nUnique ID generated by the server for the Item. This is used as an identifier.\n\n\n\n\n\n name \n string \n\n\n\nName of the Item.\n\n\n\n\n\n unit \n string \n\n\n\nUnit of measurement for the item.\n\n\n\n\n\n item_type \n string \n\n\n\nItem type can be inventory, sales, purchases or sales_and_purchases. If item is associated with a group, then type shou"
+  },
+  "organizations_api": {}
+}
