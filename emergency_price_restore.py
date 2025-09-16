@@ -71,7 +71,18 @@ class EmergencyPriceRestorer:
             }
             
             logger.info(f'🔄 Updating item {item_id_str} with price ${new_price}')
+            logger.info(f'🔗 URL: {url}')
+            logger.info(f'📦 Data: {data}')
+            
             response = requests.put(url, headers=headers, json=data)
+            
+            # Log response details for debugging
+            logger.info(f'📊 Response Status: {response.status_code}')
+            logger.info(f'📋 Response Headers: {dict(response.headers)}')
+            
+            if response.status_code != 200:
+                logger.error(f'❌ API Error Response: {response.text}')
+            
             response.raise_for_status()
             
             logger.info(f'✅ Updated ALL prices for item {item_id_str}: ${new_price}')
