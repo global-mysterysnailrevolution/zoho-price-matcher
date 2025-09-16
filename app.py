@@ -15,19 +15,18 @@ logger = logging.getLogger(__name__)
 
 class ZohoPriceStockMatcher:
     def __init__(self):
-        self.zoho_token = os.getenv('ZOHO_TOKEN')
         self.zoho_org_id = os.getenv('ZOHO_ORG_ID')
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
         
         # Set OpenAI API key
         openai.api_key = self.openai_api_key
         
+        # Initialize token manager
+        from zoho_token_manager import ZohoTokenManager
+        self.token_manager = ZohoTokenManager()
+        
         # Zoho API endpoints
         self.zoho_base_url = 'https://www.zohoapis.com/inventory/v1'
-        self.headers = {
-            'Authorization': f'Zoho-oauthtoken {self.zoho_token}',
-            'Content-Type': 'application/json'
-        }
         
         # Default warehouse ID (you may need to get this from your Zoho account)
         self.default_warehouse_id = '460000000038080'  # Update this with your actual warehouse ID
@@ -35,8 +34,13 @@ class ZohoPriceStockMatcher:
     def get_warehouses(self):
         """Get list of warehouses/locations"""
         try:
+            headers = self.token_manager.get_headers()
+            if not headers:
+                logger.error('❌ No valid Zoho token available')
+                return []
+                
             url = f'{self.zoho_base_url}/warehouses?organization_id={self.zoho_org_id}'
-            response = requests.get(url, headers=self.headers)
+            response = requests.get(url, headers=headers)
             response.raise_for_status()
             
             data = response.json()
@@ -89,13 +93,18 @@ class ZohoPriceStockMatcher:
     def update_item_price(self, item_id, new_price):
         """Update item price in Zoho"""
         try:
+            headers = self.token_manager.get_headers()
+            if not headers:
+                logger.error('❌ No valid Zoho token available')
+                return False
+                
             url = f'{self.zoho_base_url}/items/{item_id}?organization_id={self.zoho_org_id}'
             
             data = {
                 'rate': new_price
             }
             
-            response = requests.put(url, headers=self.headers, json=data)
+            response = requests.put(url, headers=headers, json=data)
             response.raise_for_status()
             
             logger.info(f'✅ Updated price for item {item_id} to ${new_price}')
@@ -108,6 +117,11 @@ class ZohoPriceStockMatcher:
     def create_stock_adjustment(self, item_id, quantity, warehouse_id=None):
         """Create inventory adjustment to update stock levels"""
         try:
+            headers = self.token_manager.get_headers()
+            if not headers:
+                logger.error('❌ No valid Zoho token available')
+                return False
+                
             url = f'{self.zoho_base_url}/inventoryadjustments?organization_id={self.zoho_org_id}'
             
             warehouse_id = warehouse_id or self.default_warehouse_id
@@ -126,7 +140,7 @@ class ZohoPriceStockMatcher:
                 ]
             }
             
-            response = requests.post(url, headers=self.headers, json=data)
+            response = requests.post(url, headers=headers, json=data)
             response.raise_for_status()
             
             logger.info(f'✅ Created stock adjustment for item {item_id}: {quantity} units')
@@ -190,7 +204,7 @@ class ZohoPriceStockMatcher:
         logger.info('=' * 60)
         
         # Check environment variables
-        required_vars = ['OPENAI_API_KEY', 'ZOHO_TOKEN', 'ZOHO_ORG_ID']
+        required_vars = ['OPENAI_API_KEY', 'ZOHO_ORG_ID', 'ZOHO_REFRESH_TOKEN', 'ZOHO_CLIENT_ID', 'ZOHO_CLIENT_SECRET']
         missing_vars = [var for var in required_vars if not os.getenv(var)]
         
         if missing_vars:
