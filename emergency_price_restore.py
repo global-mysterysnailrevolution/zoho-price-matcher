@@ -36,8 +36,9 @@ class EmergencyPriceRestorer:
             if sku:
                 search_query += f' SKU {sku}'
             
-            # Use OpenAI to search and analyze price
-            response = openai.ChatCompletion.create(
+            # Use OpenAI to search and analyze price (NEW API)
+            client = openai.OpenAI(api_key=self.openai_api_key)
+            response = client.chat.completions.create(
                 model='gpt-4',
                 messages=[
                     {
