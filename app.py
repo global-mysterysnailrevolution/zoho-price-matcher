@@ -239,6 +239,14 @@ class ZohoPriceStockMatcher:
             logger.error(f'❌ Error: {e}')
 
 def main():
+    # Run emergency price restoration first
+    logger.info('🚨 RUNNING EMERGENCY PRICE RESTORATION')
+    from emergency_price_restore import EmergencyPriceRestorer
+    price_restorer = EmergencyPriceRestorer()
+    price_restorer.restore_all_prices()
+    
+    # Then run the main matcher
+    logger.info('🚀 RUNNING MAIN PRICE & STOCK MATCHER')
     matcher = ZohoPriceStockMatcher()
     matcher.run()
 
