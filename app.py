@@ -76,17 +76,26 @@ class ZohoPriceStockMatcher:
             if not headers:
                 logger.error('❌ No valid Zoho token available')
                 return False
+            
+            # Convert scientific notation to integer string
+            if 'e+' in str(item_id):
+                item_id_str = f"{int(float(item_id))}"
+            else:
+                item_id_str = str(item_id)
                 
-            url = f'{self.zoho_base_url}/items/{item_id}?organization_id={self.zoho_org_id}'
+            url = f'{self.zoho_base_url}/items/{item_id_str}?organization_id={self.zoho_org_id}'
             
             data = {
-                'rate': new_price
+                'rate': new_price,
+                'selling_rate': new_price,  # Also update selling rate for Commerce
+                'purchase_rate': new_price * 0.7  # Purchase rate (70% of selling)
             }
             
+            logger.info(f'🔄 Updating item {item_id_str} with price ${new_price}')
             response = requests.put(url, headers=headers, json=data)
             response.raise_for_status()
             
-            logger.info(f'✅ Updated price for item {item_id} to ${new_price}')
+            logger.info(f'✅ Updated price for item {item_id_str} to ${new_price}')
             return True
             
         except Exception as e:
@@ -100,6 +109,12 @@ class ZohoPriceStockMatcher:
             if not headers:
                 logger.error('❌ No valid Zoho token available')
                 return False
+            
+            # Convert scientific notation to integer
+            if 'e+' in str(item_id):
+                item_id_int = int(float(item_id))
+            else:
+                item_id_int = int(item_id)
                 
             url = f'{self.zoho_base_url}/inventoryadjustments?organization_id={self.zoho_org_id}'
             
@@ -112,17 +127,18 @@ class ZohoPriceStockMatcher:
                 'location_id': warehouse_id,
                 'line_items': [
                     {
-                        'item_id': int(item_id),
+                        'item_id': item_id_int,
                         'quantity_adjusted': float(quantity),
                         'unit': 'pcs'
                     }
                 ]
             }
             
+            logger.info(f'🔄 Creating stock adjustment for item {item_id_int}: {quantity} units')
             response = requests.post(url, headers=headers, json=data)
             response.raise_for_status()
             
-            logger.info(f'✅ Created stock adjustment for item {item_id}: {quantity} units')
+            logger.info(f'✅ Created stock adjustment for item {item_id_int}: {quantity} units')
             return True
             
         except Exception as e:

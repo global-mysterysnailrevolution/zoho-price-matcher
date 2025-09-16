@@ -51,7 +51,13 @@ class EmergencyPriceRestorer:
     def update_item_price(self, item_id, new_price):
         """Update item price in Zoho - try multiple price fields"""
         try:
-            url = f'{self.zoho_base_url}/items/{item_id}?organization_id={self.zoho_org_id}'
+            # Convert scientific notation to integer string
+            if 'e+' in str(item_id):
+                item_id_str = f"{int(float(item_id))}"
+            else:
+                item_id_str = str(item_id)
+            
+            url = f'{self.zoho_base_url}/items/{item_id_str}?organization_id={self.zoho_org_id}'
             
             # Try updating multiple price fields
             data = {
@@ -60,10 +66,11 @@ class EmergencyPriceRestorer:
                 'purchase_rate': new_price * 0.7  # Purchase price (70% of selling)
             }
             
+            logger.info(f'🔄 Updating item {item_id_str} with price ${new_price}')
             response = requests.put(url, headers=self.headers, json=data)
             response.raise_for_status()
             
-            logger.info(f'✅ Updated ALL prices for item {item_id}: ${new_price}')
+            logger.info(f'✅ Updated ALL prices for item {item_id_str}: ${new_price}')
             return True
             
         except Exception as e:
