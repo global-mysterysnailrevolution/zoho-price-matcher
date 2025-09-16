@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import re
 import time
 import random
+import json
+from urllib.parse import urljoin, urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -13,394 +15,367 @@ class WebPriceScraper:
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Cache-Control': 'max-age=0',
+            'DNT': '1'
         })
-    
-    def search_google_shopping(self, item_name):
+        
+        # Scientific equipment manufacturers and their affiliates
+        self.manufacturers = {
+            'thermo_fisher': {
+                'name': 'Thermo Fisher Scientific',
+                'sites': [
+                    'https://www.thermofisher.com',
+                    'https://www.fishersci.com',
+                    'https://www.invitrogen.com',
+                    'https://www.appliedbiosystems.com'
+                ],
+                'search_paths': ['/search', '/catalog', '/products'],
+                'brands': ['Thermo Fisher', 'Fisher Scientific', 'Invitrogen', 'Applied Biosystems', 'Life Technologies']
+            },
+            'corning': {
+                'name': 'Corning',
+                'sites': [
+                    'https://www.corning.com',
+                    'https://www.corning.com/lifesciences',
+                    'https://www.falcon.com'
+                ],
+                'search_paths': ['/search', '/products', '/catalog'],
+                'brands': ['Corning', 'Falcon', 'Costar']
+            },
+            'vwr': {
+                'name': 'VWR International',
+                'sites': [
+                    'https://us.vwr.com',
+                    'https://www.vwr.com'
+                ],
+                'search_paths': ['/search', '/catalog', '/products'],
+                'brands': ['VWR', 'VWR International']
+            },
+            'bd': {
+                'name': 'BD Biosciences',
+                'sites': [
+                    'https://www.bdbiosciences.com',
+                    'https://www.bd.com'
+                ],
+                'search_paths': ['/search', '/products', '/catalog'],
+                'brands': ['BD', 'Becton Dickinson', 'Falcon']
+            },
+            'millipore': {
+                'name': 'MilliporeSigma',
+                'sites': [
+                    'https://www.sigmaaldrich.com',
+                    'https://www.emdmillipore.com'
+                ],
+                'search_paths': ['/search', '/catalog', '/products'],
+                'brands': ['Sigma-Aldrich', 'Millipore', 'EMD Millipore']
+            }
+        }
+
+    def extract_price_from_text(self, text):
+        """Extract price from text"""
+        if not text:
+            return None
+        
+        # Remove common currency symbols and extract numbers
+        price_patterns = [
+            r'\$(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)',  # $1,234.56
+            r'(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*USD',  # 1,234.56 USD
+            r'(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)\s*\$',  # 1,234.56 $
+            r'(\d+\.\d{2})',  # 123.45
+            r'(\d+)'  # 123
+        ]
+        
+        for pattern in price_patterns:
+            match = re.search(pattern, text.replace(',', ''))
+            if match:
+                try:
+                    price = float(match.group(1))
+                    if 0.01 <= price <= 50000:  # Scientific equipment price range
+                        return price
+                except ValueError:
+                    continue
+        return None
+
+    def detect_brand_and_manufacturer(self, item_name):
+        """Detect brand and manufacturer from item name"""
+        item_lower = item_name.lower()
+        
+        for manufacturer_id, manufacturer_info in self.manufacturers.items():
+            for brand in manufacturer_info['brands']:
+                if brand.lower() in item_lower:
+                    logger.info(f"🏷️ Detected brand: {brand} -> Manufacturer: {manufacturer_info['name']}")
+                    return manufacturer_id, manufacturer_info, brand
+        
+        logger.info(f"❓ No specific brand detected for: {item_name}")
+        return None, None, None
+
+    def search_manufacturer_site(self, manufacturer_info, item_name, barcode=None):
+        """Search manufacturer's website for item"""
+        prices = []
+        
+        for site in manufacturer_info['sites']:
+            try:
+                logger.info(f"🔍 Searching {manufacturer_info['name']} site: {site}")
+                
+                # Try different search approaches
+                search_queries = [item_name]
+                if barcode:
+                    search_queries.append(barcode)
+                    search_queries.append(f"UPC {barcode}")
+                
+                for search_query in search_queries:
+                    for search_path in manufacturer_info['search_paths']:
+                        try:
+                            # Construct search URL
+                            search_url = urljoin(site, search_path)
+                            params = {'q': search_query, 'search': search_query}
+                            
+                            # Add random delay
+                            time.sleep(random.uniform(1, 3))
+                            
+                            response = self.session.get(search_url, params=params, timeout=15)
+                            
+                            if response.status_code == 200:
+                                soup = BeautifulSoup(response.content, 'html.parser')
+                                site_prices = self.extract_prices_from_page(soup, site)
+                                prices.extend(site_prices)
+                                
+                                if site_prices:
+                                    logger.info(f"💰 Found {len(site_prices)} prices on {site}")
+                                    
+                        except Exception as e:
+                            logger.warning(f"⚠️ Error searching {site}{search_path}: {e}")
+                            continue
+                            
+            except Exception as e:
+                logger.error(f"❌ Error accessing {site}: {e}")
+                continue
+        
+        return prices
+
+    def extract_prices_from_page(self, soup, site_url):
+        """Extract prices from a manufacturer's page"""
+        prices = []
+        
+        # Common price selectors for manufacturer sites
+        price_selectors = [
+            '.price', '.cost', '.amount', '.value',
+            '.product-price', '.item-price', '.list-price',
+            '.sale-price', '.retail-price', '.wholesale-price',
+            '[data-price]', '[data-cost]', '[data-amount]',
+            '.price-current', '.price-now', '.price-display',
+            '.pricing', '.cost-display', '.amount-display'
+        ]
+        
+        for selector in price_selectors:
+            elements = soup.select(selector)
+            for element in elements:
+                price_text = element.get_text(strip=True)
+                price = self.extract_price_from_text(price_text)
+                if price:
+                    prices.append(price)
+                    logger.info(f"💵 Found price: ${price} on {site_url}")
+        
+        # Also look for price in data attributes
+        for element in soup.find_all(attrs={'data-price': True}):
+            try:
+                price = float(element['data-price'])
+                if 0.01 <= price <= 50000:
+                    prices.append(price)
+                    logger.info(f"💵 Found data-price: ${price} on {site_url}")
+            except (ValueError, KeyError):
+                continue
+        
+        return prices
+
+    def search_google_shopping(self, item_name, barcode=None):
         """Search Google Shopping for item prices"""
         try:
-            # Search Google Shopping
-            search_query = f"{item_name} price buy online"
+            # Construct search query
+            search_terms = [item_name]
+            if barcode:
+                search_terms.append(f"UPC {barcode}")
+                search_terms.append(f"barcode {barcode}")
+            
+            search_query = " ".join(search_terms)
             url = f"https://www.google.com/search?q={search_query}&tbm=shop"
+
+            logger.info(f"🛒 Searching Google Shopping for: {search_query}")
             
-            logger.info(f"🔍 Searching Google Shopping for: {item_name}")
-            response = self.session.get(url, timeout=10)
+            # Add random delay
+            time.sleep(random.uniform(1, 2))
+            
+            response = self.session.get(url, timeout=15)
             response.raise_for_status()
-            
+
             soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # Look for price elements
-            prices = []
-            
-            # Try different price selectors
+
+            # Look for Google Shopping price elements
             price_selectors = [
                 '.a8Pemb',  # Google Shopping price
                 '.g9WBQb',  # Alternative price selector
-                '[data-ved]',  # Generic price elements
+                '[data-attrid="price"]',  # Price attribute
                 '.price',  # Generic price class
+                '.cost',  # Generic cost class
             ]
-            
-            for selector in price_selectors:
-                price_elements = soup.select(selector)
-                for element in price_elements:
-                    text = element.get_text().strip()
-                    # Extract price numbers
-                    price_match = re.search(r'\$?(\d+\.?\d*)', text)
-                    if price_match:
-                        try:
-                            price = float(price_match.group(1))
-                            if 0.01 <= price <= 10000:  # Reasonable price range
-                                prices.append(price)
-                        except ValueError:
-                            continue
-            
-            if prices:
-                avg_price = sum(prices) / len(prices)
-                logger.info(f"💰 Found {len(prices)} prices for {item_name}, average: ${avg_price:.2f}")
-                return avg_price
-            else:
-                logger.warning(f"⚠️ No prices found for {item_name}")
-                return None
-                
-        except Exception as e:
-            logger.error(f"❌ Error searching Google Shopping for {item_name}: {e}")
-            return None
-    
-    def search_amazon(self, item_name):
-        """Search Amazon for item prices with better anti-detection"""
-        try:
-            # Search Amazon
-            search_query = item_name.replace(' ', '+')
-            url = f"https://www.amazon.com/s?k={search_query}"
-            
-            # Better headers to avoid detection
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Connection': 'keep-alive',
-                'Upgrade-Insecure-Requests': '1',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'none',
-                'Cache-Control': 'max-age=0',
-                'DNT': '1'
-            }
-            
-            logger.info(f"🛒 Searching Amazon for: {item_name}")
-            
-            # Add random delay to avoid rate limiting
-            time.sleep(random.uniform(2, 4))
-            
-            response = self.session.get(url, headers=headers, timeout=15)
-            
-            # Check if we got blocked
-            if response.status_code == 503:
-                logger.warning(f"⚠️ Amazon blocked request for {item_name} (503) - skipping")
-                return None
-            
-            response.raise_for_status()
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            
-            # Look for Amazon price elements
+
             prices = []
-            price_selectors = [
-                '.a-price-whole',  # Amazon price whole part
-                '.a-offscreen',  # Amazon price offscreen
-                '.a-price .a-offscreen',  # Nested price
-                '.a-price-range .a-price-whole',  # Price range
-                '.s-price-instructions-style .a-price-whole',  # Alternative selector
-            ]
-            
             for selector in price_selectors:
                 price_elements = soup.select(selector)
                 for element in price_elements:
-                    text = element.get_text().strip()
-                    # Extract price numbers
-                    price_match = re.search(r'(\d+\.?\d*)', text)
-                    if price_match:
-                        try:
-                            price = float(price_match.group(1))
-                            if 0.01 <= price <= 10000:  # Reasonable price range
-                                prices.append(price)
-                                logger.info(f'🛒 Found Amazon price: ${price}')
-                        except ValueError:
-                            continue
-            
+                    price_text = element.get_text(strip=True)
+                    price = self.extract_price_from_text(price_text)
+                    if price:
+                        prices.append(price)
+                        logger.info(f'🛒 Found Google Shopping price: ${price}')
+
             if prices:
                 avg_price = sum(prices) / len(prices)
-                logger.info(f"💰 Found {len(prices)} Amazon prices for {item_name}, average: ${avg_price:.2f}")
+                logger.info(f"💰 Found {len(prices)} Google Shopping prices, average: ${avg_price:.2f}")
                 return avg_price
             else:
-                logger.warning(f"⚠️ No Amazon prices found for {item_name}")
+                logger.warning(f"⚠️ No Google Shopping prices found")
                 return None
-                
+
         except Exception as e:
-            logger.error(f"❌ Error searching Amazon for {item_name}: {e}")
-            return None
-    
-    def search_thermo_fisher(self, item_name):
-        """Search Thermo Fisher Scientific for lab equipment prices"""
-        try:
-            # Thermo Fisher search
-            search_query = item_name.replace(' ', '%20')
-            url = f"https://www.thermofisher.com/search/results?query={search_query}"
-            
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-            }
-            
-            logger.info(f"🔬 Searching Thermo Fisher for: {item_name}")
-            time.sleep(random.uniform(2, 3))
-            
-            response = self.session.get(url, headers=headers, timeout=15)
-            response.raise_for_status()
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            prices = []
-            
-            # Look for Thermo Fisher price elements
-            price_selectors = [
-                '.price',
-                '.product-price',
-                '.price-value',
-                '[data-price]',
-                '.price-current'
-            ]
-            
-            for selector in price_selectors:
-                price_elements = soup.select(selector)
-                for element in price_elements:
-                    text = element.get_text().strip()
-                    price_match = re.search(r'\$(\d+\.?\d*)', text)
-                    if price_match:
-                        try:
-                            price = float(price_match.group(1))
-                            if 1 <= price <= 50000:  # Lab equipment can be expensive
-                                prices.append(price)
-                                logger.info(f'🔬 Found Thermo Fisher price: ${price}')
-                        except ValueError:
-                            continue
-            
-            if prices:
-                avg_price = sum(prices) / len(prices)
-                logger.info(f"💰 Found {len(prices)} Thermo Fisher prices for {item_name}, average: ${avg_price:.2f}")
-                return avg_price
-            else:
-                logger.warning(f"⚠️ No Thermo Fisher prices found for {item_name}")
-                return None
-                
-        except Exception as e:
-            logger.error(f"❌ Error searching Thermo Fisher for {item_name}: {e}")
+            logger.error(f"❌ Error searching Google Shopping: {e}")
             return None
 
-    def search_vwr(self, item_name):
-        """Search VWR for lab equipment prices"""
+    def search_by_barcode(self, barcode):
+        """Search for item prices using barcode/UPC"""
         try:
-            # VWR search
-            search_query = item_name.replace(' ', '+')
-            url = f"https://us.vwr.com/store/search?query={search_query}"
+            if not barcode:
+                return None
+                
+            logger.info(f"🔍 Searching by barcode: {barcode}")
             
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-            }
+            # Search Google Shopping with barcode
+            search_query = f"UPC {barcode}"
+            url = f"https://www.google.com/search?tbm=shop&q={search_query}"
             
-            logger.info(f"🧪 Searching VWR for: {item_name}")
-            time.sleep(random.uniform(2, 3))
-            
-            response = self.session.get(url, headers=headers, timeout=15)
+            response = self.session.get(url, timeout=15)
             response.raise_for_status()
-            
             soup = BeautifulSoup(response.content, 'html.parser')
-            prices = []
             
-            # Look for VWR price elements
+            # Look for Google Shopping price elements
             price_selectors = [
-                '.price',
-                '.product-price',
-                '.price-value',
-                '[data-price]',
-                '.price-current',
-                '.price-now'
+                '.a8Pemb',  # Google Shopping price
+                '.g9WBQb',  # Google Shopping price alternative
+                '.a8Pemb .a8Pemb',  # Nested price
+                '.g9WBQb .g9WBQb',  # Nested price alternative
+                '[data-attrid="price"]',  # Price attribute
+                '.price',  # Generic price class
+                '.cost',  # Generic cost class
             ]
             
+            prices = []
             for selector in price_selectors:
                 price_elements = soup.select(selector)
                 for element in price_elements:
-                    text = element.get_text().strip()
-                    price_match = re.search(r'\$(\d+\.?\d*)', text)
-                    if price_match:
-                        try:
-                            price = float(price_match.group(1))
-                            if 1 <= price <= 50000:  # Lab equipment can be expensive
-                                prices.append(price)
-                                logger.info(f'🧪 Found VWR price: ${price}')
-                        except ValueError:
-                            continue
+                    price_text = element.get_text(strip=True)
+                    price = self.extract_price_from_text(price_text)
+                    if price and 0.01 <= price <= 50000:  # Scientific equipment price range
+                        prices.append(price)
+                        logger.info(f'🔍 Found barcode-based price: ${price}')
             
             if prices:
                 avg_price = sum(prices) / len(prices)
-                logger.info(f"💰 Found {len(prices)} VWR prices for {item_name}, average: ${avg_price:.2f}")
-                return avg_price
+                logger.info(f"💰 Found {len(prices)} barcode-based prices, average: ${avg_price:.2f}")
+                return round(avg_price, 2)
             else:
-                logger.warning(f"⚠️ No VWR prices found for {item_name}")
+                logger.warning(f"⚠️ No barcode-based prices found")
                 return None
                 
         except Exception as e:
-            logger.error(f"❌ Error searching VWR for {item_name}: {e}")
+            logger.error(f"❌ Error searching by barcode {barcode}: {e}")
             return None
 
-    def search_corning(self, item_name):
-        """Search Corning for lab equipment prices"""
+    def search_similar_items(self, item_name):
+        """Search for similar items to get price estimates"""
         try:
-            # Corning search - they have specific product pages
-            search_query = item_name.replace(' ', '+')
-            url = f"https://www.corning.com/worldwide/en/products/life-sciences/products.html?search={search_query}"
+            logger.info(f"🔍 Searching for similar items to: {item_name}")
             
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-            }
+            # Extract key terms from item name
+            key_terms = re.findall(r'\b\w+\b', item_name.lower())
+            # Remove common words
+            stop_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'}
+            key_terms = [term for term in key_terms if term not in stop_words and len(term) > 2]
             
-            logger.info(f"🔬 Searching Corning for: {item_name}")
-            time.sleep(random.uniform(2, 3))
-            
-            response = self.session.get(url, headers=headers, timeout=15)
-            response.raise_for_status()
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            prices = []
-            
-            # Look for Corning price elements
-            price_selectors = [
-                '.price',
-                '.product-price',
-                '.price-value',
-                '[data-price]',
-                '.price-current'
-            ]
-            
-            for selector in price_selectors:
-                price_elements = soup.select(selector)
-                for element in price_elements:
-                    text = element.get_text().strip()
-                    price_match = re.search(r'\$(\d+\.?\d*)', text)
-                    if price_match:
-                        try:
-                            price = float(price_match.group(1))
-                            if 1 <= price <= 50000:  # Lab equipment can be expensive
-                                prices.append(price)
-                                logger.info(f'🔬 Found Corning price: ${price}')
-                        except ValueError:
-                            continue
-            
-            if prices:
-                avg_price = sum(prices) / len(prices)
-                logger.info(f"💰 Found {len(prices)} Corning prices for {item_name}, average: ${avg_price:.2f}")
-                return avg_price
-            else:
-                logger.warning(f"⚠️ No Corning prices found for {item_name}")
-                return None
+            if len(key_terms) >= 2:
+                # Search with reduced terms
+                similar_query = " ".join(key_terms[:3])  # Use top 3 terms
+                logger.info(f"🔍 Searching similar items with: {similar_query}")
                 
-        except Exception as e:
-            logger.error(f"❌ Error searching Corning for {item_name}: {e}")
-            return None
-
-    def detect_brand_and_search(self, item_name):
-        """Detect brand from item name and search appropriate supplier"""
-        try:
-            item_lower = item_name.lower()
-            
-            # Brand detection and specific searches
-            if 'corning' in item_lower:
-                logger.info(f"🏷️ Detected Corning brand in: {item_name}")
-                return self.search_corning(item_name)
-            elif 'thermo' in item_lower or 'fisher' in item_lower:
-                logger.info(f"🏷️ Detected Thermo Fisher brand in: {item_name}")
-                return self.search_thermo_fisher(item_name)
-            elif 'vwr' in item_lower:
-                logger.info(f"🏷️ Detected VWR brand in: {item_name}")
-                return self.search_vwr(item_name)
-            elif 'falcon' in item_lower:
-                logger.info(f"🏷️ Detected Falcon brand in: {item_name}")
-                return self.search_thermo_fisher(item_name)  # Falcon is owned by Thermo Fisher
-            elif 'nunc' in item_lower:
-                logger.info(f"🏷️ Detected Nunc brand in: {item_name}")
-                return self.search_thermo_fisher(item_name)  # Nunc is owned by Thermo Fisher
-            elif 'bd' in item_lower:
-                logger.info(f"🏷️ Detected BD brand in: {item_name}")
-                return self.search_vwr(item_name)  # BD products often sold through VWR
-            elif 'axygen' in item_lower:
-                logger.info(f"🏷️ Detected Axygen brand in: {item_name}")
-                return self.search_vwr(item_name)  # Axygen products often sold through VWR
+                return self.search_google_shopping(similar_query)
             
             return None
             
         except Exception as e:
-            logger.error(f"❌ Error in brand detection for {item_name}: {e}")
+            logger.error(f"❌ Error searching similar items: {e}")
             return None
 
-    def search_multiple_sources(self, item_name, sku=None):
-        """Search multiple scientific suppliers and return average price"""
+    def search_multiple_sources(self, item_name, barcode=None):
+        """Search multiple sources for item prices"""
         try:
+            logger.info(f"🔍 Starting comprehensive price search for: {item_name}")
+            if barcode:
+                logger.info(f"🏷️ Using barcode: {barcode}")
+            
             prices = []
             
-            # First try brand-specific search
-            brand_price = self.detect_brand_and_search(item_name)
-            if brand_price:
-                prices.append(brand_price)
-                logger.info(f"🎯 Found brand-specific price: ${brand_price}")
+            # 1. Detect brand and search manufacturer sites first
+            manufacturer_id, manufacturer_info, brand = self.detect_brand_and_manufacturer(item_name)
             
-            # Search Google Shopping (good for general lab equipment)
-            google_price = self.search_google_shopping(item_name)
+            if manufacturer_info:
+                logger.info(f"🏭 Searching manufacturer sites for {brand}")
+                manufacturer_prices = self.search_manufacturer_site(manufacturer_info, item_name, barcode)
+                prices.extend(manufacturer_prices)
+            
+            # 2. Search by barcode if available
+            if barcode:
+                logger.info(f"🔍 Searching by barcode: {barcode}")
+                barcode_price = self.search_by_barcode(barcode)
+                if barcode_price:
+                    prices.append(barcode_price)
+            
+            # 3. Search Google Shopping
+            logger.info(f"🛒 Searching Google Shopping")
+            google_price = self.search_google_shopping(item_name, barcode)
             if google_price:
                 prices.append(google_price)
             
-            # Small delay between requests
-            time.sleep(random.uniform(2, 4))
-            
-            # Search Thermo Fisher Scientific
-            thermo_price = self.search_thermo_fisher(item_name)
-            if thermo_price:
-                prices.append(thermo_price)
-            
-            # Small delay between requests
-            time.sleep(random.uniform(2, 4))
-            
-            # Search VWR
-            vwr_price = self.search_vwr(item_name)
-            if vwr_price:
-                prices.append(vwr_price)
-            
-            # Small delay between requests
-            time.sleep(random.uniform(2, 4))
-            
-            # Search Corning (especially for flasks and labware)
-            corning_price = self.search_corning(item_name)
-            if corning_price:
-                prices.append(corning_price)
-            
-            # If we still don't have prices, try Amazon as fallback
+            # 4. If still no prices, try similar items
             if not prices:
-                logger.info(f"🔄 No scientific supplier prices found, trying Amazon as fallback...")
-                time.sleep(random.uniform(2, 4))
-                amazon_price = self.search_amazon(item_name)
-                if amazon_price:
-                    prices.append(amazon_price)
+                logger.info(f"🔍 No direct prices found, searching similar items")
+                similar_price = self.search_similar_items(item_name)
+                if similar_price:
+                    prices.append(similar_price)
             
+            # Calculate final price
             if prices:
+                # Remove outliers (prices that are too different from median)
+                if len(prices) > 2:
+                    prices.sort()
+                    median = prices[len(prices)//2]
+                    # Keep prices within 50% of median
+                    filtered_prices = [p for p in prices if 0.5 * median <= p <= 1.5 * median]
+                    if filtered_prices:
+                        prices = filtered_prices
+                
                 avg_price = sum(prices) / len(prices)
-                logger.info(f"🎯 Final average price for {item_name}: ${avg_price:.2f} (from {len(prices)} sources)")
-                return avg_price
+                logger.info(f"💰 Final result: {len(prices)} prices found, average: ${avg_price:.2f}")
+                return round(avg_price, 2)
             else:
-                logger.warning(f"⚠️ No prices found from any source for {item_name}")
+                logger.warning(f"⚠️ No prices found for {item_name}")
                 return None
                 
         except Exception as e:
@@ -412,19 +387,23 @@ def main():
     scraper = WebPriceScraper()
     
     test_items = [
-        "Corning 175 cm² Flask Angled Neck Nonpyrogenic Polystyrene",
-        "Tissue Culture Flask",
-        "VWR Reagent Reservoir 50 mL",
-        "BD 30mL Syringe Luer-Lok Tip",
-        "Falcon IVF 4-well Dish"
+        ("Corning 175 cm² Flask Angled Neck Nonpyrogenic Polystyrene", "123456789012"),
+        ("Thermo Fisher Scientific Pipette Tips", "987654321098"),
+        ("VWR Reagent Reservoir 50 mL", None),
+        ("BD 30mL Syringe Luer-Lok Tip", "555666777888"),
+        ("Falcon IVF 4-well Dish", None)
     ]
     
-    for item in test_items:
-        price = scraper.search_multiple_sources(item)
+    for item_name, barcode in test_items:
+        print(f"\n🔍 Testing: {item_name}")
+        if barcode:
+            print(f"🏷️ Barcode: {barcode}")
+        
+        price = scraper.search_multiple_sources(item_name, barcode)
         if price:
-            print(f"✅ {item}: ${price:.2f}")
+            print(f"✅ Price found: ${price:.2f}")
         else:
-            print(f"❌ {item}: No price found")
+            print(f"❌ No price found")
 
 if __name__ == '__main__':
     main()
