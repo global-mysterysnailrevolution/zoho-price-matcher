@@ -15,19 +15,18 @@ logger = logging.getLogger(__name__)
 
 class EmergencyPriceRestorer:
     def __init__(self):
-        self.zoho_token = os.getenv('ZOHO_TOKEN')
         self.zoho_org_id = os.getenv('ZOHO_ORG_ID')
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
         
         # Set OpenAI API key
         openai.api_key = self.openai_api_key
         
+        # Initialize token manager
+        from zoho_token_manager import ZohoTokenManager
+        self.token_manager = ZohoTokenManager()
+        
         # Zoho API endpoints
         self.zoho_base_url = 'https://www.zohoapis.com/inventory/v1'
-        self.headers = {
-            'Authorization': f'Zoho-oauthtoken {self.zoho_token}',
-            'Content-Type': 'application/json'
-        }
         
     def search_item_price(self, item_name, sku=None):
         """Use web scraping to search for current market price"""
@@ -51,6 +50,11 @@ class EmergencyPriceRestorer:
     def update_item_price(self, item_id, new_price):
         """Update item price in Zoho - try multiple price fields"""
         try:
+            headers = self.token_manager.get_headers()
+            if not headers:
+                logger.error('❌ No valid Zoho token available')
+                return False
+            
             # Convert scientific notation to integer string
             if 'e+' in str(item_id):
                 item_id_str = f"{int(float(item_id))}"
@@ -67,7 +71,7 @@ class EmergencyPriceRestorer:
             }
             
             logger.info(f'🔄 Updating item {item_id_str} with price ${new_price}')
-            response = requests.put(url, headers=self.headers, json=data)
+            response = requests.put(url, headers=headers, json=data)
             response.raise_for_status()
             
             logger.info(f'✅ Updated ALL prices for item {item_id_str}: ${new_price}')
