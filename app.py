@@ -12,7 +12,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-class ZohoPriceStockMatcher:
+class ZohoPriceMatcher:
     def __init__(self):
         self.zoho_org_id = os.getenv('ZOHO_ORG_ID')
         self.openai_api_key = os.getenv('OPENAI_API_KEY')
@@ -24,28 +24,6 @@ class ZohoPriceStockMatcher:
         # Zoho API endpoints
         self.zoho_base_url = 'https://www.zohoapis.com/inventory/v1'
 
-        # Default warehouse ID (you may need to get this from your Zoho account)
-        self.default_warehouse_id = '460000000038080'  # Update this with your actual warehouse ID
-
-    def get_warehouses(self):
-        """Get list of warehouses/locations"""
-        try:
-            headers = self.token_manager.get_headers()
-            if not headers:
-                logger.error('❌ No valid Zoho token available')
-                return None
-
-            url = f'{self.zoho_base_url}/settings/warehouses?organization_id={self.zoho_org_id}'
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            
-            warehouses = response.json().get('warehouses', [])
-            logger.info(f'✅ Found {len(warehouses)} warehouses')
-            return warehouses
-            
-        except Exception as e:
-            logger.error(f'❌ Error getting warehouses: {e}')
-            return None
 
     def search_item_price(self, item_name, sku=None, barcode=None, manufacturer=None):
         """Search for item price using enhanced Google search and sponsored link scraping"""
@@ -113,47 +91,6 @@ class ZohoPriceStockMatcher:
             logger.error(f'❌ Error updating price for item {item_id}: {e}')
             return False
 
-    def create_stock_adjustment(self, item_id, new_quantity, warehouse_id=None):
-        """Create inventory adjustment to set stock level"""
-        try:
-            headers = self.token_manager.get_headers()
-            if not headers:
-                logger.error('❌ No valid Zoho token available')
-                return False
-            
-            # Convert scientific notation to integer string
-            if 'e+' in str(item_id):
-                item_id_str = f"{int(float(item_id))}"
-            else:
-                item_id_str = str(item_id)
-            
-            # Use default warehouse if not specified
-            if not warehouse_id:
-                warehouse_id = self.default_warehouse_id
-            
-            url = f'{self.zoho_base_url}/inventoryadjustments?organization_id={self.zoho_org_id}'
-            
-            data = {
-                'adjustment_date': datetime.now().strftime('%Y-%m-%d'),
-                'reason': 'Stock update from Google Sheets',
-                'line_items': [{
-                    'item_id': item_id_str,
-                    'warehouse_id': warehouse_id,
-                    'quantity_adjusted': new_quantity
-                }]
-            }
-            
-            logger.info(f'📦 Creating stock adjustment for item {item_id_str}: {new_quantity} units')
-            
-            response = requests.post(url, headers=headers, json=data)
-            response.raise_for_status()
-            
-            logger.info(f'✅ Created stock adjustment for item {item_id_str}')
-            return True
-            
-        except Exception as e:
-            logger.error(f'❌ Error creating stock adjustment for item {item_id}: {e}')
-            return False
 
     def get_google_sheets_data(self):
         """Fetch data from Google Sheets"""
@@ -195,9 +132,9 @@ class ZohoPriceStockMatcher:
             return False
 
     def match_and_update_items(self):
-        """Main function to match items and update prices/stock"""
+        """Main function to match items and update prices only"""
         try:
-            logger.info('🚀 Starting Zoho Inventory Price & Stock Matcher')
+            logger.info('🚀 Starting Zoho Inventory Price Matcher')
             logger.info('=' * 60)
             
             # Check environment variables
@@ -217,7 +154,7 @@ class ZohoPriceStockMatcher:
                 return
             
             # Step 2: Process items that have Zoho IDs
-            logger.info('💰 Step 2: Processing items with prices and stock...')
+            logger.info('💰 Step 2: Processing items with prices...')
             
             # Filter to only items that were matched
             matched_items = matched_df[matched_df['match_status'] == 'MATCHED']
@@ -231,7 +168,6 @@ class ZohoPriceStockMatcher:
             # Process each matched item
             updated_count = 0
             price_updated_count = 0
-            stock_updated_count = 0
             
             for index, row in matched_items.iterrows():
                 try:
@@ -258,10 +194,7 @@ class ZohoPriceStockMatcher:
                         # Update Google Sheet with found price
                         self.update_google_sheet_price(index, current_price)
                     
-                    # Update stock level
-                    if not pd.isna(quantity) and quantity > 0:
-                        if self.create_stock_adjustment(zoho_id, int(quantity)):
-                            stock_updated_count += 1
+                    # Stock levels are NOT updated - prices only
                     
                     updated_count += 1
                     
@@ -276,19 +209,17 @@ class ZohoPriceStockMatcher:
             logger.info(f'✅ Processing complete!')
             logger.info(f'📊 Items processed: {updated_count}')
             logger.info(f'💰 Prices updated: {price_updated_count}')
-            logger.info(f'📦 Stock levels updated: {stock_updated_count}')
             
         except Exception as e:
             logger.error(f'❌ Error in main processing: {e}')
 
 def main():
     """Main entry point"""
-    logger.info('🚀 Zoho Inventory Price & Stock Matcher')
+    logger.info('🚀 Zoho Inventory Price Matcher')
     logger.info('=' * 60)
     logger.info('📊 Reads Google Sheets')
     logger.info('🔍 Searches web for current prices')
     logger.info('💰 Updates Zoho Inventory prices')
-    logger.info('📦 Updates Zoho Inventory stock levels')
     logger.info('=' * 60)
     
     # Check environment variables
@@ -303,7 +234,7 @@ def main():
         return
     
     # Run the main matcher
-    matcher = ZohoPriceStockMatcher()
+    matcher = ZohoPriceMatcher()
     matcher.match_and_update_items()
 
 if __name__ == '__main__':
