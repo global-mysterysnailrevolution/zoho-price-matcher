@@ -51,44 +51,22 @@ class ZohoPriceStockMatcher:
             return []
     
     def search_item_price(self, item_name, sku=None):
-        """Use OpenAI to search for current market price"""
+        """Use web scraping to search for current market price"""
         try:
-            search_query = f'current market price for {item_name}'
-            if sku:
-                search_query += f' SKU {sku}'
+            from web_price_scraper import WebPriceScraper
             
-            # Use OpenAI to search and analyze price (NEW API)
-            client = openai.OpenAI(api_key=self.openai_api_key)
-            response = client.chat.completions.create(
-                model='gpt-4',
-                messages=[
-                    {
-                        'role': 'system',
-                        'content': 'You are a pricing expert. Based on your training data, provide realistic market prices for products. Return only a number (no currency symbols or text).'
-                    },
-                    {
-                        'role': 'user',
-                        'content': f'What is a reasonable market price for {item_name}? Consider typical retail prices. Return only the price number.'
-                    }
-                ],
-                max_tokens=20,
-                temperature=0.3
-            )
+            scraper = WebPriceScraper()
+            price = scraper.search_multiple_sources(item_name, sku)
             
-            price_text = response.choices[0].message.content.strip()
-            # Extract numeric value
-            import re
-            price_match = re.search(r'\d+\.?\d*', price_text)
-            if price_match:
-                price = float(price_match.group())
-                logger.info(f'💰 Found price for {item_name}: ${price}')
+            if price:
+                logger.info(f'💰 Found real web price for {item_name}: ${price}')
                 return price
             else:
-                logger.warning(f'⚠️ Could not extract price for {item_name}: {price_text}')
+                logger.warning(f'⚠️ No web price found for {item_name}')
                 return None
                 
         except Exception as e:
-            logger.error(f'❌ Error searching price for {item_name}: {e}')
+            logger.error(f'❌ Error searching web price for {item_name}: {e}')
             return None
     
     def update_item_price(self, item_id, new_price):
