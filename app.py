@@ -205,29 +205,47 @@ class ZohoPriceStockMatcher:
                 logger.error('❌ Missing ZOHO_ORG_ID environment variable')
                 return
             
-            # Get Google Sheets data
-            df = self.get_google_sheets_data()
-            if df is None:
+            # Step 1: Match items with Zoho Inventory first
+            logger.info('🔍 Step 1: Matching items with Zoho Inventory...')
+            from zoho_item_matcher import ZohoItemMatcher
+            
+            item_matcher = ZohoItemMatcher()
+            matched_df = item_matcher.match_all_items()
+            
+            if matched_df is None:
+                logger.error('❌ Failed to match items with Zoho Inventory')
                 return
             
-            # Process each item
+            # Step 2: Process items that have Zoho IDs
+            logger.info('💰 Step 2: Processing items with prices and stock...')
+            
+            # Filter to only items that were matched
+            matched_items = matched_df[matched_df['match_status'] == 'MATCHED']
+            
+            if len(matched_items) == 0:
+                logger.warning('⚠️ No items were matched with Zoho Inventory')
+                return
+            
+            logger.info(f'📊 Processing {len(matched_items)} matched items...')
+            
+            # Process each matched item
             updated_count = 0
             price_updated_count = 0
             stock_updated_count = 0
             
-            for index, row in df.iterrows():
+            for index, row in matched_items.iterrows():
                 try:
                     item_name = str(row.get('Item Name', ''))
-                    zoho_id = row.get('Zoho ID')
+                    zoho_id = row.get('zoho_id')
                     quantity = row.get('Quantity', 0)
                     manufacturer = str(row.get('Manufacturer', '')) if pd.notna(row.get('Manufacturer')) else None
                     barcode = str(row.get('Barcode', '')) if pd.notna(row.get('Barcode')) else None
                     
-                    if not item_name or pd.isna(zoho_id):
+                    if not item_name or not zoho_id:
                         logger.warning(f'⚠️ Skipping row {index}: Missing item name or Zoho ID')
                         continue
                     
-                    logger.info(f'🔄 Processing: {item_name} (ID: {zoho_id})')
+                    logger.info(f'🔄 Processing: {item_name} (Zoho ID: {zoho_id})')
                     
                     # Search for price using enhanced matcher
                     current_price = self.search_item_price(item_name, manufacturer=manufacturer, barcode=barcode)

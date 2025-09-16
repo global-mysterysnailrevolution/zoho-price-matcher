@@ -38,24 +38,6 @@ class EnhancedPriceMatcher:
             'bdbiosciences.com', 'cytiva.com'
         ]
 
-    def get_google_sheets_data(self):
-        """Fetch data from Google Sheets"""
-        try:
-            url = 'https://docs.google.com/spreadsheets/d/1igH2xZq48pb76bAG25rVBkxb8gODc0SqBHMLwu5hTSc/export?format=csv&gid=1761140701'
-            
-            logger.info('📊 Fetching data from Google Sheets...')
-            response = requests.get(url)
-            response.raise_for_status()
-            
-            df = pd.read_csv(pd.StringIO(response.text))
-            logger.info(f'✅ Successfully fetched {len(df)} rows from Google Sheets')
-            
-            return df
-            
-        except Exception as e:
-            logger.error(f'❌ Error fetching Google Sheets data: {e}')
-            return None
-
     def google_search_item(self, item_name, manufacturer=None):
         """Search Google for the item and get first 7 sponsored links"""
         try:
@@ -364,7 +346,7 @@ class EnhancedPriceMatcher:
         logger.warning(f"⚠️ No good match found (best score: {best_score:.2f})")
         return None
 
-    def process_item(self, item_name, manufacturer=None, zoho_id=None, quantity=None):
+    def process_item(self, item_name, manufacturer=None, barcode=None):
         """Process a single item through the complete pipeline"""
         try:
             logger.info(f"🔄 Processing: {item_name}")
@@ -405,8 +387,6 @@ class EnhancedPriceMatcher:
             result = {
                 'original_item_name': item_name,
                 'original_manufacturer': manufacturer,
-                'zoho_id': zoho_id,
-                'quantity': quantity,
                 'matched_title': best_match['title'],
                 'matched_price': best_match['price'],
                 'matched_url': best_match['url'],
@@ -420,83 +400,6 @@ class EnhancedPriceMatcher:
             
         except Exception as e:
             logger.error(f"❌ Error processing {item_name}: {e}")
-            return None
-
-    def create_results_sheet(self, results):
-        """Create a new sheet with results"""
-        try:
-            if not results:
-                logger.warning("⚠️ No results to create sheet")
-                return None
-            
-            # Create DataFrame
-            df = pd.DataFrame(results)
-            
-            # Save to CSV
-            output_file = 'price_matching_results.csv'
-            df.to_csv(output_file, index=False)
-            
-            logger.info(f"✅ Created results sheet: {output_file}")
-            logger.info(f"📊 {len(results)} items processed")
-            
-            return df
-            
-        except Exception as e:
-            logger.error(f"❌ Error creating results sheet: {e}")
-            return None
-
-    def run_full_process(self):
-        """Run the complete process"""
-        try:
-            logger.info("🚀 Starting Enhanced Price Matching Process")
-            logger.info("=" * 60)
-            
-            # Step 1: Get Google Sheets data
-            df = self.get_google_sheets_data()
-            if df is None:
-                return
-            
-            # Step 2: Process items
-            results = []
-            processed_count = 0
-            
-            for index, row in df.iterrows():
-                try:
-                    item_name = str(row.get('Item Name', ''))
-                    manufacturer = str(row.get('Manufacturer', '')) if pd.notna(row.get('Manufacturer')) else None
-                    zoho_id = row.get('Zoho ID')
-                    quantity = row.get('Quantity', 0)
-                    
-                    if not item_name or pd.isna(zoho_id):
-                        continue
-                    
-                    # Process the item
-                    result = self.process_item(item_name, manufacturer, zoho_id, quantity)
-                    
-                    if result:
-                        results.append(result)
-                    
-                    processed_count += 1
-                    
-                    # Add delay to avoid rate limiting
-                    time.sleep(random.uniform(3, 6))
-                    
-                except Exception as e:
-                    logger.error(f"❌ Error processing row {index}: {e}")
-                    continue
-            
-            # Step 3: Create results sheet
-            self.create_results_sheet(results)
-            
-            logger.info("=" * 60)
-            logger.info(f"✅ Process complete!")
-            logger.info(f"📊 Items processed: {processed_count}")
-            logger.info(f"💰 Successful matches: {len(results)}")
-            
-            return results
-            
-        except Exception as e:
-            logger.error(f"❌ Error in full process: {e}")
             return None
 
 def main():
