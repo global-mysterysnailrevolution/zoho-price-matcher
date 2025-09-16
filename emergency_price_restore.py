@@ -92,8 +92,14 @@ class EmergencyPriceRestorer:
         logger.info('=' * 60)
         
         # Check environment variables
-        if not self.zoho_token or not self.zoho_org_id or not self.openai_api_key:
+        if not self.zoho_org_id or not self.openai_api_key:
             logger.error('❌ Missing required environment variables')
+            return
+        
+        # Check if token manager can get valid headers
+        headers = self.token_manager.get_headers()
+        if not headers:
+            logger.error('❌ No valid Zoho token available')
             return
         
         # Fetch Google Sheets data
