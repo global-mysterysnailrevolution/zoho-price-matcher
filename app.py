@@ -64,15 +64,15 @@ class ZohoPriceStockMatcher:
                 messages=[
                     {
                         'role': 'system',
-                        'content': 'You are a price research assistant. Search for current market prices and return the average price in USD. Only return a number (no currency symbols or text).'
+                        'content': 'You are a pricing expert. Based on your training data, provide realistic market prices for products. Return only a number (no currency symbols or text).'
                     },
                     {
                         'role': 'user',
-                        'content': f'Find the current average market price for: {search_query}. Return only the price number.'
+                        'content': f'What is a reasonable market price for {item_name}? Consider typical retail prices. Return only the price number.'
                     }
                 ],
-                max_tokens=50,
-                temperature=0.1
+                max_tokens=20,
+                temperature=0.3
             )
             
             price_text = response.choices[0].message.content.strip()
