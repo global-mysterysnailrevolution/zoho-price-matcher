@@ -48,73 +48,19 @@ class ZohoPriceStockMatcher:
             return None
 
     def search_item_price(self, item_name, sku=None, barcode=None, manufacturer=None):
-        """Search for item price using enhanced product matching and web scraping"""
+        """Search for item price using enhanced Google search and sponsored link scraping"""
         try:
-            from web_price_scraper import WebPriceScraper
-            from product_matcher import ProductMatcher
+            from enhanced_price_matcher import EnhancedPriceMatcher
             
-            # Initialize matcher and scraper
-            matcher = ProductMatcher()
-            scraper = WebPriceScraper()
+            # Initialize enhanced matcher
+            matcher = EnhancedPriceMatcher()
             
-            # Process the item to extract MPN, condition, etc.
-            item_data = matcher.process_item(item_name, manufacturer, barcode)
+            # Process the item through the complete pipeline
+            result = matcher.process_item(item_name, manufacturer, barcode=barcode)
             
-            logger.info(f'🔍 Processed item data: {item_data}')
-            
-            # Search for prices using multiple approaches
-            prices = []
-            
-            # 1. Search by MPN if available (most accurate)
-            if item_data.get('mpn'):
-                logger.info(f'🔍 Searching by MPN: {item_data["mpn"]}')
-                mpn_price = scraper.search_multiple_sources(item_data['mpn'], item_data.get('barcode'))
-                if mpn_price:
-                    prices.append({
-                        'price': mpn_price,
-                        'source': 'mpn_search',
-                        'confidence': 0.9,
-                        'mpn': item_data['mpn']
-                    })
-            
-            # 2. Search by barcode if available
-            if barcode:
-                logger.info(f'🔍 Searching by barcode: {barcode}')
-                barcode_price = scraper.search_by_barcode(barcode)
-                if barcode_price:
-                    prices.append({
-                        'price': barcode_price,
-                        'source': 'barcode_search',
-                        'confidence': 0.8,
-                        'barcode': barcode
-                    })
-            
-            # 3. Search by item name (fallback)
-            logger.info(f'🔍 Searching by item name: {item_name}')
-            name_price = scraper.search_multiple_sources(item_name, barcode)
-            if name_price:
-                prices.append({
-                    'price': name_price,
-                    'source': 'name_search',
-                    'confidence': 0.6,
-                    'title': item_name
-                })
-            
-            # Choose best price based on confidence
-            if prices:
-                # Sort by confidence and pick the best
-                best_price_data = max(prices, key=lambda x: x['confidence'])
-                base_price = best_price_data['price']
-                
-                # Apply condition-based pricing
-                final_price = matcher.apply_condition_pricing(
-                    base_price, 
-                    item_data['condition'],
-                    is_reagent=item_data.get('unit_type') in ['reagents', 'chemicals']
-                )
-                
-                logger.info(f'💰 Final price for {item_name}: ${final_price} (from {best_price_data["source"]})')
-                return final_price
+            if result and result.get('matched_price'):
+                logger.info(f'💰 Found price for {item_name}: ${result["matched_price"]} (confidence: {result["confidence_score"]:.2f})')
+                return result['matched_price']
             else:
                 logger.warning(f'⚠️ No price found for {item_name}')
                 return None
@@ -274,15 +220,16 @@ class ZohoPriceStockMatcher:
                     item_name = str(row.get('Item Name', ''))
                     zoho_id = row.get('Zoho ID')
                     quantity = row.get('Quantity', 0)
-                    manufacturer = row.get('Manufacturer', '')
-                    barcode = row.get('Barcode', '')
+                    manufacturer = str(row.get('Manufacturer', '')) if pd.notna(row.get('Manufacturer')) else None
+                    barcode = str(row.get('Barcode', '')) if pd.notna(row.get('Barcode')) else None
                     
                     if not item_name or pd.isna(zoho_id):
+                        logger.warning(f'⚠️ Skipping row {index}: Missing item name or Zoho ID')
                         continue
                     
                     logger.info(f'🔄 Processing: {item_name} (ID: {zoho_id})')
                     
-                    # Search for price
+                    # Search for price using enhanced matcher
                     current_price = self.search_item_price(item_name, manufacturer=manufacturer, barcode=barcode)
                     
                     if current_price:
@@ -301,7 +248,7 @@ class ZohoPriceStockMatcher:
                     updated_count += 1
                     
                     # Add delay to avoid rate limiting
-                    time.sleep(1)
+                    time.sleep(2)
                     
                 except Exception as e:
                     logger.error(f'❌ Error processing row {index}: {e}')
